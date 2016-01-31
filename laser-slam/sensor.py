@@ -1,6 +1,7 @@
 import numpy as np
 from numpy import array
 import math
+import re
 
 PI = math.pi
 
@@ -18,7 +19,7 @@ def loadMap(name):
         markers.append([m.start() for m in re.finditer("l", i)])
         locs = [m.start() for m in re.finditer(r"([0-9])", i)]
         rlocs.append({p: int(i[p]) for p in locs})
-    return (markers, rlocs, m)
+    return (markers, rlocs, s)
     #markers is an array of indicies for the landmarks
     #rlocs is an array of [(indice of number), (number)]
 
@@ -28,53 +29,50 @@ def getRobotPos(index, rlocs):
             return [rlocs[i][index], i]
     return -1
 
-def raytrace(p1, p2, markers, tisize):
+#res is an int, p1 and p2 are in the same dimensions as the marker (meaning markers[p1[0]][p1[1]] refers to the tile it is looking for
+def raytrace(p1, p2, markers, res):
     #Returns hit closest to p1
     diff = np.subtract(p2, p1)
     diffx = diff[0]
-    print(diff)
-    if diffx != 0 and slope[1] != 0:
+    if diffx != 0 and diff[1] != 0:
         slope = diff[1] / diffx
-        for i in range(int(math.ceil(abs(diffx)))):
-            idiffx = (diffx / math.ceil(abs(diffx))) * float(i)
+        #directions
+        drs = slope / abs(slope)
+        drx = diffx / abs(diffx)
+        for i in range(int(math.ceil(abs(diffx)) * res)):
+            idiffx = (diffx / math.ceil(abs(diffx))) * float(i / res)
             y = slope * idiffx + p1[1]
             x = idiffx + p1[0]
-            mx, my = math.ceil(x), math.ceil(y)
-            lx, ly = math.floor(x), math.floor(y)
 
-            dirx, dirslope = int(diffx / abs(diffx)), int(slope / abs(slope))
+            ix = x
+            iy = y
+            if drx == -1:
+                ix = int(math.ceil(ix))
+            else:
+                ix = int(math.floor(ix))
 
-            cases = {}
+            if drs == -1:
+                iy = int(math.floor(iy))
+            else:
+                iy = int(math.ceil(iy))
+            if iy in markers[ix]:
+                return math.sqrt(x**2 + y**2)
+    return -1
 
-            tilesAround = [[lx, ly], [mx, ly], [mx, my], [lx, my]]
 
-            #get the start index of colliding cubes
-            us = 2 * (slope / abs(slope)) + (diffx / abs(diffx))
-            #map it to the indicies
-            cases = {3:0.0, -3:1.0, 1:2.0, -1:3.0}
-            s = cases[us]
-
-            # check around the line and calculate what order to go through the tiles around the line
-            for xy in range(4):
-                p = xy + s
-                if p > 3:
-                    p = p - 4
-                    tindex = tilesAround[int(p)]
-                    row = markers[tindex[0]]
-                    if tindex[1] in row:
-                        return math.sqrt(tindex[0]**2 + tindex[1]**2)
-        return -1
-
-print(s)
+(markers, rlocs, m) = loadMap("map")
+print(m)
 p1 = getRobotPos(9, rlocs)
 p2 = [11.0, 0.0]
 for i in range(20):
-    print("ray", raytrace(p1, [float(i + 0.01), 0.0], markers, 1.))
+    print(i, 0, raytrace(p1, [float(i + 0.01), 0.0], markers, 1.))
 
-def scanloc(location, res, srange, tmap):
+def scanloc(location, res, srange, rlocs, fov, bearing):
     data = {}
     for i in range(res):
-        deg = float(i) * (res / 2 * PI)
+        deg = float(i) * (res / 2 * (fov / PI + bearing))
         target = [cos(deg) * srange, sin(deg) * srange]
-        data.append(raytrace(location, target))
+        data.append(raytrace(location, target, rlocs, 1.))
         return data
+
+print(scanloc(p1, 30, 10, rlocs, PI / 2, PI / 2))
