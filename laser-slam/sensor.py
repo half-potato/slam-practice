@@ -60,19 +60,14 @@ def raytrace(p1, p2, markers, res):
     return -1
 
 
-(markers, rlocs, m) = loadMap("map")
-print(m)
-p1 = getRobotPos(9, rlocs)
-p2 = [11.0, 0.0]
-for i in range(20):
-    print(i, 0, raytrace(p1, [float(i + 0.01), 0.0], markers, 1.))
-
-def scanloc(location, res, srange, rlocs, fov, bearing):
-    data = {}
+def scanloc(location, startA, finishA, res, srange, markers, tisize):
+    data = []
     for i in range(res):
-        deg = float(i) * (res / 2 * (fov / PI + bearing))
-        target = [cos(deg) * srange, sin(deg) * srange]
-        data.append(raytrace(location, target, rlocs, 1.))
-        return data
-
-print(scanloc(p1, 30, 10, rlocs, PI / 2, PI / 2))
+        deg = startA + float(i) * (res/(finishA-startA))
+        target = [math.cos(deg) * srange, math.sin(deg) * srange]
+        data.append(raytrace(location, target, markers, tisize))
+    return data
+#usage
+(markers, rlocs, m) = loadMap("map")
+p1 = getRobotPos(9, rlocs)
+print(scanloc(p1, 0., 2.*PI, 100, 10., markers, 1.))
