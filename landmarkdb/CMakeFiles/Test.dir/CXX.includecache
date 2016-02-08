@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/amai/slam-practice/landmarkdb/Landmarkdb.h
+iostream
+-
+fstream
+-
+
+/Users/amai/slam-practice/landmarkdb/landmarkdb.cpp
+Landmarkdb.h
+/Users/amai/slam-practice/landmarkdb/Landmarkdb.h
+
+/Users/amai/slam-practice/landmarkdb/main.cpp
+Landmarkdb.h
+/Users/amai/slam-practice/landmarkdb/Landmarkdb.h
+algorithm
+-
+iostream
+-
+

@@ -56,8 +56,8 @@ for i in X:
     E.append((A.dot(E[k-1])).dot(A.T) + Ex)
     print("Model prediction error:", E[k])
     print(E[k], C.T, E[k].dot(C.T))
-    g.append(array([[(E[k][0][0]+E[k][1][0])/(E[k][0][0]+Ez)]]))
-    #g.append((E[k].dot(C.T)).dot(np.linalg.inv(C.dot(E[k]).dot(C.T) + Ez)))
+    #g.append(array([[(E[k][0][0]+E[k][1][0])/(E[k][0][0]+Ez)]]))
+    g.append((E[k].dot(C.T)).dot(np.linalg.inv(C.dot(E[k]).dot(C.T) + Ez)))
     print("Kalman gain:", g[k])
     #Correct the model with sensor data
     #xhat + difference between model and sensor data multiplied by confidence in data
