@@ -1,0 +1,4 @@
+.L /usr/lib/libopencv_core.so
+.L /usr/lib/libopencv_imgproc.so
+.L /usr/lib/libopencv_highgui.so
+.L /usr/lib/libopencv_features2d.so

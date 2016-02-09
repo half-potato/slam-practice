@@ -11,4 +11,10 @@ opencv2/highgui/highgui.hpp
 /home/amai/slam-practice/testbed/opencv2/highgui/highgui.hpp
 iostream
 -
+opencv2/xfeatures2d.hpp
+-
+opencv2/imgproc/imgproc.hpp
+-
+math.h
+-
 
