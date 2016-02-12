@@ -1,9 +1,7 @@
 # Make files #
 ##############
 # run cmake and make yourself
-Test
 CMakeCache.txt
-CMakeLists.txt
 CMakeFiles/
 
 # Compiled source #
