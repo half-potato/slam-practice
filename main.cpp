@@ -27,7 +27,7 @@ int main()
 	cv::createTrackbar("Contrast", "V", &sliderVal2, 100);
 
 	//Mat img(100, 300, CV_8UC3, Scalar(0, 0, 100));
-	cv::Ptr<cv::Feature2D> surf = cv::xfeatures2d::SURF::create(400, 2, 3);
+	auto surf = cv::xfeatures2d::SURF::create(400, 2, 3);
 	cv::Mat prevImg;
 
 	while(1)

@@ -6,6 +6,7 @@
 #include <numeric>
 #include <iterator>
 #include <algorithm>
+#include <math.h>
 
 using namespace std;
 

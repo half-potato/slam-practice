@@ -1,1 +1,1 @@
-/home/amai/slam-practice/CMakeFiles/Test.dir
+/Users/amai/slam-practice/CMakeFiles/Test.dir
