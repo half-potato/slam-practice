@@ -3,7 +3,7 @@
 # run cmake and make yourself
 Test
 CMakeCache.txt
-CMakeFiles
+CMakeFiles/
 
 # Compiled source #
 ###################
